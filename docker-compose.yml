@@ -1,0 +1,26 @@
+version: "3.6"
+
+services:
+
+  book_api:
+    container_name: "book_api"
+    image: node:18
+    build:
+      context: "./"
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+    ports:
+      - 3001:3000
+    entrypoint: /bin/sh -c "npm i && npm run start:dev"
+    depends_on:
+      - mongoo
+  
+  mongoo:
+    image: mongo:4.0.28
+    container_name: "mongoo"
+    ports:
+      - 27018:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
